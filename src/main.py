@@ -61,10 +61,15 @@ def main() -> None:
     # Convert tmp_list to an actual list
     domains = list(sorted(tmp_list))
 
-    print("membrane: writing to 'hosts.txt'...")
+    print("membrane: writing 'hosts.txt'...")
     with open('hosts.txt', 'w') as f:
         for item in domains:
             f.write("0.0.0.0 %s\n" % item)
+
+    print("membrane: writing 'domains.txt'...")
+    with open('domains.txt', 'w') as f:
+        for item in domains:
+            f.write("%s\n" % item)
 
     sys.exit(0)
 
