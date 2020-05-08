@@ -10,9 +10,6 @@ block_hosts: list = [
     "https://gitlab.com/ZeroDot1/CoinBlockerLists/raw/master/hosts",
     "https://gitlab.com/ZeroDot1/CoinBlockerLists/raw/master/hosts_browser",
     "https://gitlab.com/ZeroDot1/CoinBlockerLists/raw/master/hosts_optional",
-    "https://hosts-file.net/ad_servers.txt",
-    "https://hosts-file.net/exp.txt",
-    "https://hosts-file.net/hjk.txt",
     "https://mirror.cedia.org.ec/malwaredomains/justdomains",
     "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext",
     "https://raw.githubusercontent.com/AdAway/adaway.github.io/master/hosts.txt",
@@ -27,28 +24,22 @@ block_hosts: list = [
 
 
 def cleanup(t: str) -> str:
-    # remove leading spaces
     t = re.sub("^\s", "", t, flags=re.MULTILINE)
-
-    # remove comments
-    t = re.sub("^#.*$\n", "", t, flags=re.MULTILINE)
+    t = re.sub("^#.*$", "", t, flags=re.MULTILINE)
     t = re.sub("#.*$", "", t, flags=re.MULTILINE)
-
-    # remove leading ip
+    t = re.sub("^<.*$", "", t, flags=re.MULTILINE)
+    t = re.sub("^<.*$", "", t, flags=re.MULTILINE)
     t = re.sub("^127.0.0.1\s", "", t, flags=re.MULTILINE)
     t = re.sub("^0.0.0.0\s", "", t, flags=re.MULTILINE)
-
-    # remove junk
     t = re.sub("^0.0.0.0$", "", t, flags=re.MULTILINE)
-    t = re.sub("localhost$", "", t, flags=re.MULTILINE)
-    t = re.sub("localdomain$", "", t, flags=re.MULTILINE)
-    t = re.sub("::.*\n", "", t, flags=re.MULTILINE)
+    t = re.sub("^.*localhost$", "", t, flags=re.MULTILINE)
+    t = re.sub("^.*localdomain$", "", t, flags=re.MULTILINE)
+    t = re.sub("^.*::.*$", "", t, flags=re.MULTILINE)
     t = re.sub("\r", "", t, flags=re.MULTILINE)
-    t = re.sub("^$", "", t, flags=re.MULTILINE)
-    t = re.sub("^\n", "", t, flags=re.MULTILINE)
     t = re.sub("^\s+", "", t, flags=re.MULTILINE)
     t = re.sub("\s+$", "", t, flags=re.MULTILINE)
     t = re.sub("\t", "", t, flags=re.MULTILINE)
+    t = re.sub("^$\n", "", t, flags=re.MULTILINE)
 
     return t
 
@@ -64,7 +55,8 @@ def main() -> None:
         # Writing to a temporary dict is way faster than attempting
         # to only add unique items to a list.
         for l in r.split("\n"):
-            tmp_list[l] = ""
+            if "." in l:
+                tmp_list[l] = ""
 
     # Convert tmp_list to an actual list
     domains = list(sorted(tmp_list))
