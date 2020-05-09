@@ -58,7 +58,6 @@ def main() -> None:
             if "." in l:
                 tmp_list[l] = ""
 
-    # Convert tmp_list to an actual list
     domains = list(sorted(tmp_list))
 
     print("membrane: writing 'hosts.txt'...")
@@ -66,9 +65,14 @@ def main() -> None:
         for item in domains:
             f.write("0.0.0.0 %s\n" % item)
 
+    tmp_list = {}
+    for item in domains:
+        item = '.'.join(item.split(".")[-2:])
+        tmp_list[item] = ""
+
     print("membrane: writing 'domains.txt'...")
     with open('domains.txt', 'w') as f:
-        for item in domains:
+        for item in list(sorted(tmp_list)):
             f.write("%s\n" % item)
 
     sys.exit(0)
