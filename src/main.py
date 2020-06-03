@@ -19,7 +19,7 @@ block_hosts: list = [
     "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts",
     "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts",
     "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn-social/hosts",
-    "https://raw.githubusercontent.com/lightswitch05/hosts/master/ads-and-tracking-extended.txt"
+    "https://raw.githubusercontent.com/lightswitch05/hosts/master/ads-and-tracking-extended.txt",
 ]
 
 
@@ -54,24 +54,24 @@ def main() -> None:
 
         # Writing to a temporary dict is way faster than attempting
         # to only add unique items to a list.
-        for l in r.split("\n"):
-            if "." in l:
-                tmp_list[l] = ""
+        for line in r.split("\n"):
+            if "." in line:
+                tmp_list[line] = ""
 
     domains = list(sorted(tmp_list))
 
     print("membrane: writing 'hosts.txt'...")
-    with open('hosts.txt', 'w') as f:
+    with open("hosts.txt", "w") as f:
         for item in domains:
             f.write("0.0.0.0 %s\n" % item)
 
     tmp_list = {}
     for item in domains:
-        item = '.'.join(item.split(".")[-2:])
+        item = ".".join(item.split(".")[-2:])
         tmp_list[item] = ""
 
     print("membrane: writing 'domains.txt'...")
-    with open('domains.txt', 'w') as f:
+    with open("domains.txt", "w") as f:
         for item in list(sorted(tmp_list)):
             f.write("%s\n" % item)
 

@@ -1,4 +1,4 @@
-from setuptools import (find_packages, setup)
+from setuptools import find_packages, setup
 
 
 def Open(File):
@@ -14,30 +14,9 @@ setup(
     license=Open("LICENSE.md"),
     url="https://github.com/jcmdln/membrane",
     author="Johnathan C. Maudlin",
-
-    install_requires=[
-        "click",
-        "requests",
-    ],
-
+    install_requires=["click", "requests"],
     # pip install --upgrade -e .[devel]
-    extras_require={
-        "devel": {
-            "autopep8",
-            "flake8",
-        },
-    },
-
-    packages=find_packages(
-        exclude=[
-            "docs",
-            "tests"
-        ]
-    ),
-
-    entry_points={
-        "console_scripts": [
-            "membrane = src.main:main",
-        ],
-    },
+    extras_require={"devel": {"black", "flake8", "mypy"}},
+    packages=find_packages(exclude=["docs", "tests"]),
+    entry_points={"console_scripts": ["membrane = src.main:main"]},
 )
