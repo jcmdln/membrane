@@ -1,5 +1,3 @@
-# noqa: E501
-
 import re
 import requests
 import sys
@@ -47,34 +45,31 @@ def cleanup(t: str) -> str:
 
 
 def main() -> None:
-    tmp_list: dict = {}
+    domains: dict = {}
 
     print("membrane: getting sources...")
     for source in sources:
         r = requests.get(source).text
         r = cleanup(r)
 
-        # Writing to a temporary dict is way faster than attempting
-        # to only add unique items to a list.
         for line in r.split("\n"):
             if "." in line:
-                tmp_list[line] = ""
-
-    domains = list(sorted(tmp_list))
+                domains[line] = ""
 
     print("membrane: writing 'hosts.txt'...")
     with open("hosts.txt", "w") as f:
-        for item in domains:
+        for item in list(sorted(domains)):
             f.write("0.0.0.0 %s\n" % item)
 
-    tmp_list = {}
+    temp: dict = {}
     for item in domains:
         item = ".".join(item.split(".")[-2:])
-        tmp_list[item] = ""
+        temp[item] = ""
+    domains = temp
 
     print("membrane: writing 'domains.txt'...")
     with open("domains.txt", "w") as f:
-        for item in list(sorted(tmp_list)):
+        for item in list(sorted(domains)):
             f.write("%s\n" % item)
 
     sys.exit(0)
