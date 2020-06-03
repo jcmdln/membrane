@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 
-def Open(File):
+def Open(File) -> str:
     with open(File) as f:
         return f.read()
 
@@ -16,7 +16,9 @@ setup(
     author="Johnathan C. Maudlin",
     install_requires=["click", "requests"],
     # pip install --upgrade -e .[devel]
-    extras_require={"devel": {"black", "flake8", "mypy"}},
+    extras_require={
+        "devel": {"bandit", "black", "flake8", "flake8-mypy", "mypy", "pylint"}
+    },
     packages=find_packages(exclude=["docs", "tests"]),
     entry_points={"console_scripts": ["membrane = src.main:main"]},
 )

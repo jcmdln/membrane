@@ -1,10 +1,12 @@
+# noqa: E501
+
 import re
 import requests
 import sys
 
 domains: list = []
 
-block_hosts: list = [
+sources: list = [
     "http://winhelp2002.mvps.org/hosts.txt",
     "http://www.malwaredomainlist.com/hostslist/hosts.txt",
     "https://gitlab.com/ZeroDot1/CoinBlockerLists/raw/master/hosts",
@@ -24,22 +26,22 @@ block_hosts: list = [
 
 
 def cleanup(t: str) -> str:
-    t = re.sub("^\s", "", t, flags=re.MULTILINE)
-    t = re.sub("^#.*$", "", t, flags=re.MULTILINE)
-    t = re.sub("#.*$", "", t, flags=re.MULTILINE)
-    t = re.sub("^<.*$", "", t, flags=re.MULTILINE)
-    t = re.sub("^<.*$", "", t, flags=re.MULTILINE)
-    t = re.sub("^127.0.0.1\s", "", t, flags=re.MULTILINE)
-    t = re.sub("^0.0.0.0\s", "", t, flags=re.MULTILINE)
-    t = re.sub("^0.0.0.0$", "", t, flags=re.MULTILINE)
-    t = re.sub("^.*localhost$", "", t, flags=re.MULTILINE)
-    t = re.sub("^.*localdomain$", "", t, flags=re.MULTILINE)
-    t = re.sub("^.*::.*$", "", t, flags=re.MULTILINE)
-    t = re.sub("\r", "", t, flags=re.MULTILINE)
-    t = re.sub("^\s+", "", t, flags=re.MULTILINE)
-    t = re.sub("\s+$", "", t, flags=re.MULTILINE)
-    t = re.sub("\t", "", t, flags=re.MULTILINE)
-    t = re.sub("^$\n", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^\s", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^#.*$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"#.*$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^<.*$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^<.*$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^127.0.0.1\s", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^0.0.0.0\s", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^0.0.0.0$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^.*localhost$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^.*localdomain$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^.*::.*$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"\r", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^\s+", "", t, flags=re.MULTILINE)
+    t = re.sub(r"\s+$", "", t, flags=re.MULTILINE)
+    t = re.sub(r"\t", "", t, flags=re.MULTILINE)
+    t = re.sub(r"^$\n", "", t, flags=re.MULTILINE)
 
     return t
 
@@ -48,8 +50,8 @@ def main() -> None:
     tmp_list: dict = {}
 
     print("membrane: getting sources...")
-    for i in block_hosts:
-        r = requests.get(i).text
+    for source in sources:
+        r = requests.get(source).text
         r = cleanup(r)
 
         # Writing to a temporary dict is way faster than attempting
