@@ -20510,7 +20510,6 @@ facebook-user-signin.com
 facebook.be
 facebook.bi
 facebook.cm
-facebook.com
 facebook.de
 facebook.dk
 facebook.es
@@ -24729,7 +24728,6 @@ google-docs.info
 google-docs.org
 google.be
 google.ca
-google.com
 google.cz
 google.de
 google.ie
@@ -63642,7 +63640,6 @@ youthrenewphyto.com
 youthsprout.com
 youtibe.com
 youtrannytube.com
-youtube.com
 youtubeclone.us
 youtubologia.it
 youtuebe.info

@@ -4,6 +4,15 @@ import requests
 import sys
 from typing import Any, Dict, List
 
+allowed: List[str] = [
+    "duckduckgo.com",
+    "google.com",
+    "facebook.com",
+    "github.com",
+    "gitlab.com",
+    "youtube.com",
+]
+
 sources: List[str] = [
     "http://winhelp2002.mvps.org/hosts.txt",
     "http://www.malwaredomainlist.com/hostslist/hosts.txt",
@@ -55,7 +64,7 @@ def main() -> None:
         r = cleanup(r)
 
         for line in r.split("\n"):
-            if "." in line:
+            if "." in line and line not in allowed:
                 domains[line] = ""
 
     print("membrane: writing 'hosts.txt'...")
@@ -66,7 +75,8 @@ def main() -> None:
     temp: Dict[str, Any] = {}
     for item in domains:
         item = ".".join(item.split(".")[-2:])
-        temp[item] = ""
+        if item not in allowed:
+            temp[item] = ""
     domains = temp
 
     print("membrane: writing 'domains.txt'...")
