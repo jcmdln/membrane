@@ -20,6 +20,7 @@ sources: List[str] = [
     "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts",
     "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn-social/hosts",
     "https://raw.githubusercontent.com/lightswitch05/hosts/master/ads-and-tracking-extended.txt",
+    "https://someonewhocares.org/hosts/hosts",
 ]
 
 
