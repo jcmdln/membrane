@@ -10,6 +10,7 @@ allowed: List[str] = [
     "facebook.com",
     "github.com",
     "gitlab.com",
+    "stackoverflow.com",
     "youtube.com",
 ]
 
